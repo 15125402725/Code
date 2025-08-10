@@ -1,37 +1,74 @@
-software: python
-python 3.13
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows >= 10 x64 (build 26100)
-The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
+Reliable Classification of Imbalanced Lung Cancer Data with Enhanced Split Conformal Prediction (ESCP)
+Overview
+This repository implements the Enhanced Split Conformal Prediction (ESCP) framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including Sure Independence Screening (SIS), Synthetic Minority Over-sampling Technique (SMOTE), and Split Conformal Prediction (SCP), to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
-====>>file "data">>===========================================================================================
+Key Features
+Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
 
-The file "code" contains four main classes: DataPreparer, ModelTrainer, AdvancedConformalPredictor, and ResultVisualizer. DataPreparer handles data loading and preprocessing, ModelTrainer manages model training, AdvancedConformalPredictor performs conformal prediction, and ResultVisualizer generates visual outputs.
+Class Imbalance Handling: Implements SMOTE to oversample minority class samples and balance the dataset, improving recognition of rare cancer subtypes.
 
-DataPreparer: to load and preprocess data with stratified splitting and SMOTE oversampling
-ModelTrainer: to train and evaluate XGBoost models with cross-validation
-AdvancedConformalPredictor: to generate prediction sets with statistical guarantees using conformal prediction
-ResultVisualizer: to create diagnostic plots and performance visualizations
+Reliable Predictions: Integrates Split Conformal Prediction (SCP) to generate prediction sets with statistical guarantees, offering a confidence interval for each prediction.
 
-Key methods:
+Performance Evaluation: Demonstrates superior performance on multiple lung cancer gene expression datasets, achieving high AUROC, AUPRC, and coverage.
 
-1. DataPreparer.load_and_split():
-   • Performs stratified train-test split
-   • Applies SMOTE to balance training data
-   • Splits into training and calibration sets
+Methodology
+Data Preprocessing:
 
-2. ModelTrainer.cross_validate():
-   • Executes stratified k-fold cross-validation
-   • Returns accuracy, F1, ROC AUC, G-mean and average precision
+Variance Filtering: Removes features with low variance to reduce noise.
 
-3. AdvancedConformalPredictor.predict_with_confidence():
-   • Computes nonconformity scores
-   • Generates prediction sets with guaranteed coverage
-   • Calculates bootstrap confidence intervals
+Sure Independence Screening (SIS): Selects the most relevant features for classification.
 
-4. ResultVisualizer visualization methods:
-   • plot_metrics(): Cross-validation metrics boxplot
-   • plot_roc_pr(): ROC and Precision-Recall curves
-   • plot_coverage_vs_set_size(): Coverage analysis
-   • plot_error_distribution(): Nonconformity score visualization
+Class Imbalance Handling:
 
+SMOTE: Generates synthetic minority samples to balance the dataset.
+
+Model Training:
+
+A base classifier (e.g., XGBoost, SVM, Random Forest) is trained using the balanced dataset.
+
+Split Conformal Prediction:
+
+SCP calculates nonconformity scores and generates prediction sets for each sample, providing confidence intervals for predictions.
+
+Evaluation:
+
+ESCP is evaluated on eight public lung cancer gene expression datasets (IM101-IM108), showing improved classification and prediction reliability compared to traditional methods.
+
+Datasets
+The framework is evaluated on the following datasets:
+
+Lung Genedata (IM101)
+
+Complete Dataframe (IM102)
+
+miRNA Lung (IM103)
+
+KIPC LUAD (IM106)
+
+ICGC LUAD (IM107)
+
+PRAD LUAD (IM108)
+
+Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
+
+Performance Metrics
+The performance of the model is evaluated using the following metrics:
+
+Accuracy: Overall classification accuracy.
+
+F1-Score: Harmonic mean of precision and recall.
+
+AUROC: Area Under the Receiver Operating Characteristic Curve.
+
+AUPRC: Area Under the Precision-Recall Curve.
+
+Coverage: The proportion of true values captured within the prediction set.
+
+Results
+The ESCP framework outperforms traditional methods (e.g., SVM, Random Forest) in handling imbalanced and high-dimensional data. Key results include:
+
+High AUROC and AUPRC: Demonstrated better performance in recognizing minority classes.
+
+Reliable Confidence Intervals: Empirical coverage rates closely match the pre-specified confidence level (e.g., 96.6% coverage on IM106).
+
+Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectively, maintaining high coverage and stability.
