@@ -14,16 +14,16 @@ import numpy as np
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 创建保存图片的目录
+# Create directory to save plots
 save_dir = "model_evaluation_plots"
 os.makedirs(save_dir, exist_ok=True)
 
-# 1. 数据加载
+# 1. Load data
 df = pd.read_csv('COUNT_SIS_selected_features.csv')
 X = df.iloc[:, 1:].values
 y = df.iloc[:, 0].values
 
-# 2. 数据分割
+# 2. Split the data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
     test_size=0.3,
@@ -31,12 +31,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-# 2.1 应用SMOTE处理不平衡数据
+# 2.1 Apply SMOTE to handle class imbalance
 smote = SMOTE(random_state=42)
 X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
 
-# ========== 五折交叉验证 ==========
-print("\n=== 五折交叉验证评估 ===")
+# ========== Five-fold cross-validation ==========
+print("\n=== Five-fold cross-validation evaluation ===")
 kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 fold_accuracies = []
 fold_f1_scores = []
@@ -47,7 +47,7 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_res, y_train_re
     X_train_fold, X_val_fold = X_train_res[train_index], X_train_res[val_index]
     y_train_fold, y_val_fold = y_train_res[train_index], y_train_res[val_index]
 
-    # 定义XGBoost模型（与最终模型相同配置）
+    # Define the XGBoost model (same configuration as the final model)
     model_cv = xgb.XGBClassifier(
         objective='binary:logistic',
         eval_metric='logloss',
@@ -55,14 +55,14 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_res, y_train_re
         random_state=42
     )
 
-    # 训练模型
+    # Train the model
     model_cv.fit(X_train_fold, y_train_fold)
 
-    # 预测
+    # Predict
     y_pred_cv = model_cv.predict(X_val_fold)
     y_proba_cv = model_cv.predict_proba(X_val_fold)[:, 1]
 
-    # 计算评估指标
+    # Compute evaluation metrics
     fold_accuracies.append(accuracy_score(y_val_fold, y_pred_cv))
     fold_f1_scores.append(f1_score(y_val_fold, y_pred_cv))
     fold_roc_aucs.append(roc_auc_score(y_val_fold, y_proba_cv))
@@ -74,14 +74,14 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_res, y_train_re
           f"AUC={fold_roc_aucs[-1]:.4f} | "
           f"AP={fold_avg_precisions[-1]:.4f}")
 
-print("\n五折交叉验证平均结果:")
+print("\nAverage results of five-fold cross-validation:")
 print(f"Accuracy: {np.mean(fold_accuracies):.4f} (±{np.std(fold_accuracies):.4f})")
 print(f"F1 Score: {np.mean(fold_f1_scores):.4f} (±{np.std(fold_f1_scores):.4f})")
 print(f"AUC-ROC: {np.mean(fold_roc_aucs):.4f} (±{np.std(fold_roc_aucs):.4f})")
 print(f"Average Precision: {np.mean(fold_avg_precisions):.4f} (±{np.std(fold_avg_precisions):.4f})")
 
-# 3. 训练最终模型
-print("\n训练最终模型...")
+# 3. Train the final model
+print("\nTraining the final model...")
 model = xgb.XGBClassifier(
     objective='binary:logistic',
     eval_metric='logloss',
@@ -89,31 +89,31 @@ model = xgb.XGBClassifier(
     random_state=42
 )
 
-# 4. 训练模型
+# 4. Train the model
 model.fit(X_train_res, y_train_res)
 
-# 5. 预测
+# 5. Predict
 y_pred = model.predict(X_test)
 y_proba = model.predict_proba(X_test)[:, 1]
 
-# 6. 评估指标
+# 6. Evaluation metrics
 accuracy = accuracy_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
 roc_auc = roc_auc_score(y_test, y_proba)
 average_precision = average_precision_score(y_test, y_proba)
 
-print("\n测试集评估结果:")
+print("\nTest set evaluation results:")
 print(f"Accuracy: {accuracy:.4f}")
 print(f"F1 Score: {f1:.4f}")
 print(f"AUC-ROC: {roc_auc:.4f}")
 print(f"Average Precision: {average_precision:.4f}")
 
-# 生成时间戳用于文件名
+# Generate timestamp for filenames
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-# ====================== 独立图表 ======================
+# ====================== Individual plots ======================
 
-# 7.1 混淆矩阵单独保存
+# 7.1 Confusion matrix saved separately
 plt.figure(figsize=(6, 5))
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -124,7 +124,7 @@ cm_path = os.path.join(save_dir, f"confusion_matrix_{timestamp}.png")
 plt.savefig(cm_path, dpi=300, bbox_inches='tight')
 plt.close()
 
-# 7.2 指标条形图单独保存
+# 7.2 Metrics bar chart saved separately
 plt.figure(figsize=(8, 5))
 metrics = ['Accuracy', 'F1 Score', 'AUC-ROC', 'Avg Precision']
 values = [accuracy, f1, roc_auc, average_precision]
@@ -141,21 +141,22 @@ metrics_path = os.path.join(save_dir, f"metrics_comparison_{timestamp}.png")
 plt.savefig(metrics_path, dpi=300, bbox_inches='tight')
 plt.close()
 
-# ====================== 单图绘制ROC和PR曲线 ======================
+# ====================== Plot ROC and PR curves in a single chart ======================
+
 plt.figure(figsize=(8, 6))
 plt.title('ROC & Precision-Recall Curves(XGBoost-SCP)', fontsize=14, pad=20)
 
-# 绘制ROC曲线（蓝色实线）
+# Plot ROC curve (blue solid line)
 fpr, tpr, _ = roc_curve(y_test, y_proba)
 plt.plot(fpr, tpr, color='blue', lw=2,
          label=f'ROC (AUC = {roc_auc:.3f})')
 
-# 绘制PR曲线（红色虚线）
+# Plot PR curve (red dashed line)
 precision, recall, _ = precision_recall_curve(y_test, y_proba)
 plt.plot(recall, precision, color='red', linestyle='--', lw=2,
          label=f'PR (AP = {average_precision:.3f})')
 
-# 公共设置
+# Common settings
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.0])
 plt.xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
@@ -165,13 +166,14 @@ plt.ylabel('Precision / Positive Predictive Value', fontsize=12)
 plt.grid(True, linestyle=':', alpha=0.5)
 plt.legend(loc='lower right', fontsize=12, frameon=False)
 
-# 修正保存路径变量名（原curves_path改为combined_curve_path）
+# Fixed saving path variable name (original curves_path changed to combined_curve_path)
 combined_curve_path = os.path.join(save_dir, f"xgboost_combined_curve_{timestamp}.png")
 plt.savefig(combined_curve_path, dpi=300, bbox_inches='tight', facecolor='white')
 plt.close()
 
-# ====================== 输出结果 ======================
-print("\n图表已保存至目录:")
-print(f"- 混淆矩阵: {cm_path}")
-print(f"- 指标对比: {metrics_path}")
-print(f"- 综合曲线图: {combined_curve_path}")
+# ====================== Output results ======================
+
+print("\nCharts have been saved to the directory:")
+print(f"- Confusion Matrix: {cm_path}")
+print(f"- Metrics Comparison: {metrics_path}")
+print(f"- Combined Curve Plot: {combined_curve_path}")
