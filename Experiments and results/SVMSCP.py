@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.svm import SVC  # 改为导入SVM
+from sklearn.svm import SVC  # Change to import SVM
 from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.metrics import (accuracy_score, f1_score, roc_auc_score,
                              confusion_matrix, average_precision_score)
@@ -12,9 +12,9 @@ import seaborn as sns
 import os
 from sklearn.utils import resample
 from sklearn.base import clone
-from sklearn.calibration import CalibratedClassifierCV  # 新增用于概率校准
+from sklearn.calibration import CalibratedClassifierCV  # Added for probability calibration
 
-# 1. 数据准备模块
+# 1. Data preparation module
 class DataPreparer:
     def __init__(self, test_size=0.2, calib_size=0.3, random_state=42):
         self.test_size = test_size
@@ -26,15 +26,15 @@ class DataPreparer:
         X = df.iloc[:, 1:].values
         y = df.iloc[:, 0].values
 
-        # 第一次分割
+        # First split
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=self.test_size, stratify=y, random_state=self.random_state)
 
-        # 对训练集应用SMOTE
+        # Apply SMOTE to the training set
         smote = SMOTE(random_state=self.random_state)
         X_res, y_res = smote.fit_resample(X_train, y_train)
 
-        # 第二次分割
+        # Second split
         n = len(X_res)
         idx = np.random.RandomState(self.random_state).permutation(n)
         split_idx = n // 2
@@ -44,11 +44,11 @@ class DataPreparer:
 
         return X_train, y_train, X_cal, y_cal, X_test, y_test
 
-# 2. 模型训练模块（改为SVM）
+# 2. Model training module (changed to SVM)
 class ModelTrainer:
     def __init__(self, random_state=42):
         self.random_state = random_state
-        # 使用带概率校准的SVM
+        # Using SVM with probability calibration
         self.model = CalibratedClassifierCV(
             SVC(kernel='rbf', class_weight='balanced', probability=True, random_state=random_state),
             cv=5,
@@ -77,10 +77,10 @@ class ModelTrainer:
         self.model.fit(X_train, y_train)
         return self.model
 
-# 3. 共形预测模块（保持不变）
+# 3. Conformal prediction module (unchanged)
 class AdvancedConformalPredictor:
     def __init__(self, confidence_level=0.95, n_bootstrap=1000, random_state=42):
-        assert 0 < confidence_level < 1, "confidence_level必须在0和1之间"
+        assert 0 < confidence_level < 1, "confidence_level must be between 0 and 1"
         self.alpha = 1 - confidence_level
         self.n_bootstrap = n_bootstrap
         self.random_state = random_state
@@ -94,14 +94,14 @@ class AdvancedConformalPredictor:
         cal_scores = self._calculate_nonconformity(model, X_cal, y_cal)
         n = len(cal_scores)
 
-        # 关键修复：安全计算k值并处理边界情况
+        # Key fix: safely compute k value and handle boundary cases
         k = min(int(np.ceil((1 - self.alpha) * (n + 1))), n)
-        self.q_hat = np.sort(cal_scores)[max(0, k - 1)]  # 确保索引非负
+        self.q_hat = np.sort(cal_scores)[max(0, k - 1)]  # Ensure non-negative indexing
 
         test_probas = model.predict_proba(X_test)
         prediction_sets = [np.where(prob >= (1 - self.q_hat))[0] for prob in test_probas]
 
-        # 计算覆盖率的置信区间
+        # Calculate coverage confidence intervals
         coverage_samples = []
         for _ in range(self.n_bootstrap):
             boot_scores = resample(cal_scores, replace=True, random_state=self.random_state)
@@ -137,7 +137,7 @@ class AdvancedConformalPredictor:
         plt.savefig("results/error_distribution.png")
         plt.close()
 
-# 4. 可视化模块（保持不变）
+# 4. Visualization module (unchanged)
 class ResultVisualizer:
     def __init__(self, save_dir="results"):
         os.makedirs(save_dir, exist_ok=True)
@@ -165,7 +165,7 @@ class ResultVisualizer:
 
         plt.xlabel('Recall / True Positive Rate', fontsize=12)
         plt.ylabel('Precision / Positive Predictive Value', fontsize=12)
-        plt.title('ROC & Precision-Recall Curves (SVM_SCP)', fontsize=14)  # 修改标题
+        plt.title('ROC & Precision-Recall Curves (SVM_SCP)', fontsize=14)  # Changed title
         plt.grid(True, alpha=0.3)
         plt.legend(loc='lower right', fontsize=10)
         plt.xlim([0.0, 1.0])
@@ -196,7 +196,7 @@ class ResultVisualizer:
         ax2.plot(confidence_levels, avg_set_sizes, '--s', color=color, linewidth=2, label='Average Set Size')
         ax2.tick_params(axis='y', labelcolor=color)
 
-        plt.title('Coverage Rate vs. Prediction Set Size (SVM)')  # 修改标题
+        plt.title('Coverage Rate vs. Prediction Set Size (SVM)')  # Changed title
         lines1, labels1 = ax1.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
         ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
@@ -204,66 +204,66 @@ class ResultVisualizer:
         plt.savefig(os.path.join(self.save_dir, filename))
         plt.close()
 
-# 主执行流程
+# Main execution flow
 if __name__ == "__main__":
-    # 初始化组件
+    # Initialize components
     preparer = DataPreparer(test_size=0.2, calib_size=0.5, random_state=42)
     trainer = ModelTrainer(random_state=42)
     visualizer = ResultVisualizer()
     conformal = AdvancedConformalPredictor(confidence_level=0.95)
 
-    # 数据准备
+    # Data preparation
     try:
         X_train, y_train, X_cal, y_cal, X_test, y_test = preparer.load_and_split(
             "COUNT_SIS_selected_features.csv.csv"
         )
-        print(f"数据加载成功！训练集: {X_train.shape}, 校准集: {X_cal.shape}, 测试集: {X_test.shape}")
+        print(f"Data loaded successfully! Training set: {X_train.shape}, Calibration set: {X_cal.shape}, Test set: {X_test.shape}")
     except FileNotFoundError:
-        print("错误：未找到数据文件！请检查文件路径")
+        print("Error: Data file not found! Please check the file path.")
         exit()
 
-    # 模型训练与评估
-    print("\n正在进行交叉验证...")
+    # Model training and evaluation
+    print("\nPerforming cross-validation...")
     cv_results = trainer.cross_validate(X_train, y_train)
-    print("交叉验证结果：")
+    print("Cross-validation results:")
     print(cv_results.describe().loc[['mean', 'std']].T)
     visualizer.plot_metrics(cv_results)
 
-    # 训练最终模型
-    print("\n训练最终模型...")
+    # Train final model
+    print("\nTraining final model...")
     final_model = trainer.train_final_model(X_train, y_train)
 
-    # 共形预测
-    print("\n执行分裂共形预测...")
+    # Conformal prediction
+    print("\nPerforming split conformal prediction...")
     test_sets, q_hat, coverage_ci = conformal.predict_with_confidence(
         final_model, X_cal, y_cal, X_test
     )
 
-    # 可视化误差分布
+    # Visualize error distribution
     conformal.plot_error_distribution(final_model, X_cal, y_cal)
 
-    # 结果分析
+    # Results analysis
     coverage = np.mean([y_test[i] in test_sets[i] for i in range(len(y_test))])
     avg_set_size = np.mean([len(s) for s in test_sets])
 
-    # 常规评估
+    # Regular evaluation
     y_pred = final_model.predict(X_test)
     y_proba = final_model.predict_proba(X_test)[:, 1]
 
-    print("\n=== 模型评估结果 ===")
-    print(f"准确率: {accuracy_score(y_test, y_pred):.4f}")
-    print(f"F1分数: {f1_score(y_test, y_pred):.4f}")
+    print("\n=== Model Evaluation Results ===")
+    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print(f"F1 Score: {f1_score(y_test, y_pred):.4f}")
     print(f"ROC AUC: {roc_auc_score(y_test, y_proba):.4f}")
-    print(f"平均精度: {average_precision_score(y_test, y_proba):.4f}")
+    print(f"Average Precision: {average_precision_score(y_test, y_proba):.4f}")
     print(f"G-Mean: {geometric_mean_score(y_test, y_pred):.4f}")
 
-    print("\n=== 分裂共形预测结果 ===")
-    print(f"实际覆盖率: {coverage:.4f} (目标 ≥ {1 - conformal.alpha:.0%})")
-    print(f"覆盖率95%置信区间: [{coverage_ci[0]:.4f}, {coverage_ci[1]:.4f}]")
-    print(f"平均预测集大小: {avg_set_size:.4f}")
+    print("\n=== Split Conformal Prediction Results ===")
+    print(f"Actual Coverage: {coverage:.4f} (Target ≥ {1 - conformal.alpha:.0%})")
+    print(f"Coverage 95% Confidence Interval: [{coverage_ci[0]:.4f}, {coverage_ci[1]:.4f}]")
+    print(f"Average Prediction Set Size: {avg_set_size:.4f}")
 
-    # 测试不同置信水平
-    print("\n测试不同置信水平下的覆盖率和预测集大小...")
+    # Test different confidence levels
+    print("\nTesting coverage and prediction set sizes at different confidence levels...")
     confidence_levels = np.linspace(0.5, 0.99, 10)
     coverage_rates = []
     avg_set_sizes = []
@@ -274,7 +274,7 @@ if __name__ == "__main__":
         coverage_rates.append(np.mean([y_test[i] in temp_sets[i] for i in range(len(y_test))]))
         avg_set_sizes.append(np.mean([len(s) for s in temp_sets]))
 
-    # 可视化
+    # Visualization
     visualizer.plot_roc_pr(y_test, y_proba)
     visualizer.plot_coverage_vs_set_size(confidence_levels, coverage_rates, avg_set_sizes)
-    print("\n所有可视化结果已保存至 results/ 目录")
+    print("\nAll visualization results have been saved to the results/ directory")
