@@ -4,7 +4,7 @@ The goal of the paper is to enhance the classification performance and predictiv
 
 Feature Selection: The paper uses ***Sure Independence Screening (SIS)*** to select relevant features strongly associated with lung cancer status, helping to mitigate the effects of high-dimensionality in the data.
 
-Class Imbalance Handling: The ***SMOTE (Synthetic Minority Over-sampling Technique)*** is applied to balance the dataset by generating synthetic minority class samples, which improves the recognition of minority subtypes of lung cancer.
+Class Imbalance Handling: The ***SMOTE (Synthetic Minority Over-sampling Technique)*** is applied to balance the dataset by generating synthetic minority class samples, which improves the recognition of minority of lung cancer.
 
 Conformal Prediction: The framework integrates the ***Split Conformal Prediction (SCP)*** method to provide statistical guarantees on the prediction coverage, ensuring the reliability of predictions with confidence intervals.
 
@@ -34,7 +34,7 @@ colon, lung). 802 samples, each with over 20,000 gene expressions. Used for mult
 cancer types. 331
 
 ***Count matrix:*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
-icgc LUAD: Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
+***icgc LUAD:*** Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
 ## [data] (https://github.com/15125402725/Data)
 The framework is evaluated on the following datasets:
 
@@ -115,3 +115,5 @@ High AUROC and AUPRC: Demonstrated better performance in recognizing minority cl
 Reliable Confidence Intervals: Empirical coverage rates closely match the pre-specified confidence level (e.g., 96.6% coverage on IM106).
 
 Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectively, maintaining high coverage and stability.
+
+[icgc LUAD] (Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection[J]. BMC bioinformatics, 2022, 23(1): 175.)
