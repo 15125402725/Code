@@ -11,7 +11,7 @@ Conformal Prediction: The framework integrates the ***Split Conformal Prediction
 The ***ESCP*** method significantly improves both the accuracy and reliability of classification models by addressing class imbalance and quantifying the uncertainty of predictions, making it particularly useful for clinical applications where accurate decision-making is critical.
 
 ***Overview***
-This repository implements the Enhanced Split Conformal Prediction (ESCP) framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including Sure Independence Screening (SIS), Synthetic Minority Over-sampling Technique (SMOTE), and Split Conformal Prediction (SCP), to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
+This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including ***Sure Independence Screening (SIS)***, ***Synthetic Minority Over-sampling Technique (SMOTE)***, and ***Split Conformal Prediction (SCP)***, to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
 ## Key Features
 Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
@@ -46,6 +46,28 @@ SCP calculates nonconformity scores and generates prediction sets for each sampl
 ESCP is evaluated on eight public lung cancer gene expression datasets (IM101-IM108), showing improved classification and prediction reliability compared to traditional methods.
 
 ## Datasets
+## Data Description:
+This study used eight public lung cancer gene expression datasets, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
+Libraries Used: This study used Python libraries such as pandas, sklearn ,sklearn.feature_selection, scikit-learn, XGBoost, SMOTE, and matplotlib.
+
+***Lung genedata:*** Focuses on lung squamous cell carcinoma (LUSC). Contains data from 551 patients, 321
+each with 56,907 TPM-normalized gene expressions. Class imbalance: 502 cancer vs. 49 healthy. Used 322
+for analyzing LUSC gene features and classification. 323
+
+***complete dataframe:*** From five medical centers, includes 442 samples with over 23,000 gene 324
+expressions.The target is survival for more than 18 months; high-risk is defined based on this criterion.. 325
+High feature dimension, suitable for feature selection to avoid overfitting. 326
+***miRNA lung:*** miRNA data for small cell (SCLC) and non-small cell lung cancer (NSCLC). 119 327
+NSCLC and 49 SCLC cell lines, with 743 miRNA features. 328
+
+***data, KIPC LUAD, PRAD LUAD:***  From ICMR, includes multiple cancer types (breast, kidney, 329
+colon, lung). 802 samples, each with over 20,000 gene expressions. Used for multi-class classification of 330
+cancer types. 331
+
+***Count matrix:*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
+icgc LUAD: Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
+## [Code]  (https://github.com/15125402725/Lung)
+## [data] (https://github.com/15125402725/Data)
 The framework is evaluated on the following datasets:
 
 Lung Genedata (IM101)
@@ -54,26 +76,30 @@ Complete Dataframe (IM102)
 
 miRNA Lung (IM103)
 
+data(IM104)
+
+Count matrix(IM105)
+
 KIPC LUAD (IM106)
 
-ICGC LUAD (IM107)
+icgc LUAD (IM107)
 
 PRAD LUAD (IM108)
 
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
 
-Performance Metrics
+## Performance Metrics
 The performance of the model is evaluated using the following metrics:
 
-Accuracy: Overall classification accuracy.
+***Accuracy:*** Overall classification accuracy.
 
-F1-Score: Harmonic mean of precision and recall.
+***F1-Score:*** Harmonic mean of precision and recall.
 
-AUROC: Area Under the Receiver Operating Characteristic Curve.
+***AUROC:*** Area Under the Receiver Operating Characteristic Curve.
 
-AUPRC: Area Under the Precision-Recall Curve.
+***AUPRC:*** Area Under the Precision-Recall Curve.
 
-Coverage: The proportion of true values captured within the prediction set.
+***Coverage:*** The proportion of true values captured within the prediction set.
 
 ## Results
 The ESCP framework outperforms traditional methods (e.g., SVM, Random Forest) in handling imbalanced and high-dimensional data. Key results include:
