@@ -10,7 +10,7 @@ Conformal Prediction: The framework integrates the ***Split Conformal Prediction
 
 The ***ESCP*** method significantly improves both the accuracy and reliability of classification models by addressing class imbalance and quantifying the uncertainty of predictions, making it particularly useful for clinical applications where accurate decision-making is critical.
 
-***Overview***
+***Overview:***
 This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including ***Sure Independence Screening (SIS)***, ***Synthetic Minority Over-sampling Technique (SMOTE)***, and ***Split Conformal Prediction (SCP)***, to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
 ## Key Features
