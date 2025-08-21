@@ -21,17 +21,14 @@ Libraries Used: This study used Python libraries such as pandas, sklearn ,sklear
 ***Lung genedata:*** Focuses on lung squamous cell carcinoma (LUSC). Contains data from 551 patients, 321
 each with 56,907 TPM-normalized gene expressions. Class imbalance: 502 cancer vs. 49 healthy. Used 322
 for analyzing LUSC gene features and classification. 323
-
 ***complete dataframe:*** From five medical centers, includes 442 samples with over 23,000 gene 324
 expressions.The target is survival for more than 18 months; high-risk is defined based on this criterion.. 325
 High feature dimension, suitable for feature selection to avoid overfitting. 326
 ***miRNA lung:*** miRNA data for small cell (SCLC) and non-small cell lung cancer (NSCLC). 119 327
 NSCLC and 49 SCLC cell lines, with 743 miRNA features. 328
-
 ***data, KIPC LUAD, PRAD LUAD:***  From ICMR, includes multiple cancer types (breast, kidney, 329
 colon, lung). 802 samples, each with over 20,000 gene expressions. Used for multi-class classification of 330
 cancer types. 331
-
 ***Count matrix:*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
 icgc LUAD: Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
 ## [Code]  (https://github.com/15125402725/Lung)
