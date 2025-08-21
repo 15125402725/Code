@@ -59,8 +59,8 @@ Each dataset contains high-dimensional gene expression data with imbalanced clas
 
 ## Materials and Methods
 ### Computational Infrastructure:
-software: python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
-## [Code]  (https://github.com/15125402725/Lung)
+***software:*** python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
+## [Code]  (https://github.com/15125402725/code)
 ## Key Features
 Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
 
