@@ -35,8 +35,6 @@ cancer types. 331
 
 ***Count matrix:*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
 icgc LUAD: Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
-
-## [Code]  (https://github.com/15125402725/Lung)
 ## [data] (https://github.com/15125402725/Data)
 The framework is evaluated on the following datasets:
 
@@ -62,7 +60,7 @@ Each dataset contains high-dimensional gene expression data with imbalanced clas
 ## Materials and Methods
 ### Computational Infrastructure:
 software: python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
-
+## [Code]  (https://github.com/15125402725/Lung)
 ## Key Features
 Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
 
