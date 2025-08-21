@@ -116,4 +116,8 @@ Reliable Confidence Intervals: Empirical coverage rates closely match the pre-sp
 
 Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectively, maintaining high coverage and stability.
 
-[icgc LUAD] (Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection[J]. BMC bioinformatics, 2022, 23(1): 175.)
+## quotation
+In this study, we utilized the icgc LUAD dataset for lung cancer prediction. The gene expression data from this dataset was used to train and evaluate deep learning models. Specifically, Liu S and Yao W (2022) proposed a deep learning method with KL divergence gene selection based on gene expression to improve the predictive accuracy of lung cancer.
+***Reference:***
+
+Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection. BMC Bioinformatics, 2022, 23(1): 175.
