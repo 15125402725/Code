@@ -13,42 +13,6 @@ The ***ESCP*** method significantly improves both the accuracy and reliability o
 ***Overview:***
 This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including ***Sure Independence Screening (SIS)***, ***Synthetic Minority Over-sampling Technique (SMOTE)***, and ***Split Conformal Prediction (SCP)***, to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
-## Materials and Methods
-### Computational Infrastructure:
-software: python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
-
-## Key Features
-Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
-
-Class Imbalance Handling: Implements SMOTE to oversample minority class samples and balance the dataset, improving recognition of rare cancer subtypes.
-
-Reliable Predictions: Integrates Split Conformal Prediction (SCP) to generate prediction sets with statistical guarantees, offering a confidence interval for each prediction.
-
-Performance Evaluation: Demonstrates superior performance on multiple lung cancer gene expression datasets, achieving high AUROC, AUPRC, and coverage.
-
-## Methodology
-***Data Preprocessing:***
-
-Variance Filtering: Removes features with low variance to reduce noise.
-
-Sure Independence Screening (SIS): Selects the most relevant features for classification.
-
-Class Imbalance Handling:
-
-SMOTE: Generates synthetic minority samples to balance the dataset.
-
-## Model Training:
-
-A base classifier (e.g., XGBoost, SVM, Random Forest) is trained using the balanced dataset.
-
-Split Conformal Prediction:
-
-SCP calculates nonconformity scores and generates prediction sets for each sample, providing confidence intervals for predictions.
-
-## Evaluation:
-
-ESCP is evaluated on eight public lung cancer gene expression datasets (IM101-IM108), showing improved classification and prediction reliability compared to traditional methods.
-
 ## Datasets
 ## Data Description:
 This study used eight public lung cancer gene expression datasets, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
@@ -91,6 +55,44 @@ icgc LUAD (IM107)
 PRAD LUAD (IM108)
 
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
+
+
+## Materials and Methods
+### Computational Infrastructure:
+software: python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
+
+## Key Features
+Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
+
+Class Imbalance Handling: Implements SMOTE to oversample minority class samples and balance the dataset, improving recognition of rare cancer subtypes.
+
+Reliable Predictions: Integrates Split Conformal Prediction (SCP) to generate prediction sets with statistical guarantees, offering a confidence interval for each prediction.
+
+Performance Evaluation: Demonstrates superior performance on multiple lung cancer gene expression datasets, achieving high AUROC, AUPRC, and coverage.
+
+## Methodology
+***Data Preprocessing:***
+
+Variance Filtering: Removes features with low variance to reduce noise.
+
+Sure Independence Screening (SIS): Selects the most relevant features for classification.
+
+Class Imbalance Handling:
+
+SMOTE: Generates synthetic minority samples to balance the dataset.
+
+## Model Training:
+
+A base classifier (e.g., XGBoost, SVM, Random Forest) is trained using the balanced dataset.
+
+Split Conformal Prediction:
+
+SCP calculates nonconformity scores and generates prediction sets for each sample, providing confidence intervals for predictions.
+
+## Evaluation:
+
+ESCP is evaluated on eight public lung cancer gene expression datasets (IM101-IM108), showing improved classification and prediction reliability compared to traditional methods.
+
 
 ## Performance Metrics
 The performance of the model is evaluated using the following metrics:
