@@ -23,12 +23,17 @@ Output: SIS-selected dataset (*_filtered_gene_data_SIS.csv).
 ***3.Modeling and Conformal Prediction***
 
 Several scripts implement predictive modeling and uncertainty quantification using different classifiers:
+
 RF.py-Random Forest
+
 RFS.py-Random Forest with SMOTE balancing and 5-fold cross-validation
+
 RFSCP.py – Random Forest + Split Conformal Prediction (SCP)
 
-SVM.py-Support Vector Machine (SVM)
+SVM.py-Support Vector Machine (SVM
+
 SVMS.py-SVM with SMOTE balancing and 5-fold cross-validation
+
 SVMSCP.py – Support Vector Machine (SVM) + SCP
 
 XGBoost.py-XGBoost
@@ -71,7 +76,7 @@ Each dataset contains high-dimensional gene expression data with imbalanced clas
 ## Code information
 The processing of these eight datasets in this study is as follows:
 
-First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code)
+First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code);Finally,Modeling and Evaluation.
 
 ## Usage Instuctions
 Variance Filtering → *_filtered_gene_data.csv
@@ -121,59 +126,6 @@ Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning 
 ### Computational Infrastructure:
 python python 3.12 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
 
-## Key Features
-Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
 
-Class Imbalance Handling: Implements SMOTE to oversample minority class samples and balance the dataset, improving recognition of rare cancer subtypes.
-
-Reliable Predictions: Integrates Split Conformal Prediction (SCP) to generate prediction sets with statistical guarantees, offering a confidence interval for each prediction.
-
-Performance Evaluation: Demonstrates superior performance on multiple lung cancer gene expression datasets, achieving high AUROC, AUPRC, and coverage.
-
-## Methodology
-***Data Preprocessing:***
-
-Variance Filtering: Removes features with low variance to reduce noise.
-
-Sure Independence Screening (SIS): Selects the most relevant features for classification.
-
-Class Imbalance Handling:
-
-SMOTE: Generates synthetic minority samples to balance the dataset.
-
-## Model Training:
-
-A base classifier (e.g., XGBoost, SVM, Random Forest) is trained using the balanced dataset.
-
-Split Conformal Prediction:
-
-SCP calculates nonconformity scores and generates prediction sets for each sample, providing confidence intervals for predictions.
-
-## Evaluation:
-
-ESCP is evaluated on eight public lung cancer gene expression datasets (IM101-IM108), showing improved classification and prediction reliability compared to traditional methods.
-
-
-## Performance Metrics
-The performance of the model is evaluated using the following metrics:
-
-***Accuracy:*** Overall classification accuracy.
-
-***F1-Score:*** Harmonic mean of precision and recall.
-
-***AUROC:*** Area Under the Receiver Operating Characteristic Curve.
-
-***AUPRC:*** Area Under the Precision-Recall Curve.
-
-***Coverage:*** The proportion of true values captured within the prediction set.
-
-## Results
-The ESCP framework outperforms traditional methods (e.g., SVM, Random Forest) in handling imbalanced and high-dimensional data. Key results include:
-
-High AUROC and AUPRC: Demonstrated better performance in recognizing minority classes.
-
-Reliable Confidence Intervals: Empirical coverage rates closely match the pre-specified confidence level (e.g., 96.6% coverage on IM106).
-
-Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectively, maintaining high coverage and stability.
 
 
