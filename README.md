@@ -14,7 +14,7 @@ The ***ESCP*** method significantly improves both the accuracy and reliability o
 This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including ***Sure Independence Screening (SIS)***, ***Synthetic Minority Over-sampling Technique (SMOTE)***, and ***Split Conformal Prediction (SCP)***, to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
 ## Datasets
-## Data Description:
+## Data Information:
 This study used eight public lung cancer gene expression datasets, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
 Libraries Used: This study used Python libraries such as pandas, sklearn ,sklearn.feature_selection, scikit-learn, XGBoost, SMOTE, and matplotlib.
 
@@ -56,6 +56,8 @@ PRAD LUAD (IM108)
 
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
 
+## Code information
+## Usage Instuctions
 
 ## Materials and Methods
 ### Computational Infrastructure:
