@@ -15,49 +15,36 @@ This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** 
 
 ## Datasets
 ## Data Information:
-This study used eight public lung cancer gene expression datasets, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
-Libraries Used: This study used Python libraries such as pandas, sklearn ,sklearn.feature_selection, scikit-learn, XGBoost, SMOTE, and matplotlib.
+This study used eight public lung cancer gene expression datasets from Kaggle and UCI, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
 
-***Lung genedata:*** Focuses on lung squamous cell carcinoma (LUSC). Contains data from 551 patients, 321
+The specific characteristics of the datasets are as follows:
+
+***Lung genedata（IM101）:*** Focuses on lung squamous cell carcinoma (LUSC). Contains data from 551 patients, 321
 each with 56,907 TPM-normalized gene expressions. Class imbalance: 502 cancer vs. 49 healthy. Used 322
 for analyzing LUSC gene features and classification. 323
 
-***complete dataframe:*** From five medical centers, includes 442 samples with over 23,000 gene 324
+***complete dataframe（IM102）:*** From five medical centers, includes 442 samples with over 23,000 gene 324
 expressions.The target is survival for more than 18 months; high-risk is defined based on this criterion.. 325
 High feature dimension, suitable for feature selection to avoid overfitting. 326
 
-***miRNA lung:*** miRNA data for small cell (SCLC) and non-small cell lung cancer (NSCLC). 119 327
+***miRNA lung（IM103）:*** miRNA data for small cell (SCLC) and non-small cell lung cancer (NSCLC). 119 327
 NSCLC and 49 SCLC cell lines, with 743 miRNA features. 328
 
-***data, KIPC LUAD, PRAD LUAD:***  From ICMR, includes multiple cancer types (breast, kidney, 329
+***data（IM104）, KIPC LUAD(IM106), PRAD LUAD(IM108):***  From ICMR, includes multiple cancer types (breast, kidney, 329
 colon, lung). 802 samples, each with over 20,000 gene expressions. Used for multi-class classification of 330
 cancer types. 331
 
-***Count matrix:*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
-***icgc LUAD:*** Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
+***Count matrix(IM105):*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
+***icgc LUAD(IM107):*** Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
+
 ## [data] (https://github.com/15125402725/Data)
-The framework is evaluated on the following datasets:
-
-Lung Genedata (IM101)
-
-Complete Dataframe (IM102)
-
-miRNA Lung (IM103)
-
-data(IM104)
-
-Count matrix(IM105)
-
-KIPC LUAD (IM106)
-
-icgc LUAD (IM107)
-
-PRAD LUAD (IM108)
 
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
 
 ## Code information
-[Code]  (https://github.com/15125402725/code)
+The processing of these eight datasets in this study is as follows:
+
+First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code)
 
 ## Usage Instuctions
 
