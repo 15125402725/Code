@@ -1,19 +1,46 @@
 # Reliable Classification of Imbalanced Lung Cancer Data with Enhanced Split Conformal Prediction (ESCP)
-
-The goal of the paper is to enhance the classification performance and predictive reliability of lung cancer data, particularly when dealing with high-dimensional, imbalanced gene expression data. The paper proposes an ***Enhanced Split Conformal Prediction (ESCP)*** framework that addresses the challenges of traditional classification methods. Key Features of the Approach:
-
-Feature Selection: The paper uses ***Sure Independence Screening (SIS)*** to select relevant features strongly associated with lung cancer status, helping to mitigate the effects of high-dimensionality in the data.
-
-Class Imbalance Handling: The ***SMOTE (Synthetic Minority Over-sampling Technique)*** is applied to balance the dataset by generating synthetic minority class samples, which improves the recognition of minority of lung cancer.
-
-Conformal Prediction: The framework integrates the ***Split Conformal Prediction (SCP)*** method to provide statistical guarantees on the prediction coverage, ensuring the reliability of predictions with confidence intervals.
-
-The ***ESCP*** method significantly improves both the accuracy and reliability of classification models by addressing class imbalance and quantifying the uncertainty of predictions, making it particularly useful for clinical applications where accurate decision-making is critical.
-
-***Overview:***
 This repository implements the ***Enhanced Split Conformal Prediction (ESCP)*** framework for reliable classification of imbalanced lung cancer datasets. The ESCP algorithm combines several advanced techniques, including ***Sure Independence Screening (SIS)***, ***Synthetic Minority Over-sampling Technique (SMOTE)***, and ***Split Conformal Prediction (SCP)***, to address the challenges of high-dimensional and imbalanced medical data. It aims to improve classification accuracy, especially for minority classes, and provide statistically reliable predictions for clinical applications.
 
-## Datasets
+## Code Overview
+This repository contains a pipeline for preprocessing, feature selection, and predictive modeling on high-dimensional gene expression datasets. The workflow is modularized into several scripts:
+
+***1.Target_Variable_8.py – Variance Filtering***
+
+Removes low-variance features from the raw dataset using a threshold-based filter.
+
+Input: original dataset (.csv) with target variable in the first column.
+
+Output: filtered dataset (*_filtered_gene_data.csv).
+
+***2.SIS_8.py – Feature Selection (Sure Independence Screening / ANOVA F-test)***
+
+Selects the top-K features most associated with the target variable.
+
+Input: variance-filtered dataset.
+
+Output: SIS-selected dataset (*_filtered_gene_data_SIS.csv).
+
+***3.Modeling and Conformal Prediction***
+
+Several scripts implement predictive modeling and uncertainty quantification using different classifiers:
+RF.py-Random Forest
+RFS.py-Random Forest with SMOTE balancing and 5-fold cross-validation
+RFSCP.py – Random Forest + Split Conformal Prediction (SCP)
+
+SVM.py-Support Vector Machine (SVM)
+SVMS.py-SVM with SMOTE balancing and 5-fold cross-validation
+SVMSCP.py – Support Vector Machine (SVM) + SCP
+
+XGBoost.py-XGBoost
+
+XGBS.py – XGBoost with SMOTE balancing and 5-fold cross-validation
+
+XGBSCP.py – XGBoost + SCP
+
+
+These scripts train models on the SIS-selected dataset, evaluate performance (Accuracy, F1-score, AUC, etc.), and visualize results (ROC/PR curves, confusion matrices, calibration plots).
+
+Outputs are saved in results/ or model_evaluation_plots/ directories.
 ## Data Information:
 This study used eight public lung cancer gene expression datasets from Kaggle and UCI, each with different features and scales, suitable for evaluating classification performance on high-dimensional imbalanced datasets. Data preprocessing and feature selection were performed using variance filtering and Sure Independence Screening (SIS) methods, removing low-variance features and retaining those highly associated with the target variable.
 
@@ -47,14 +74,52 @@ The processing of these eight datasets in this study is as follows:
 First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code)
 
 ## Usage Instuctions
+Variance Filtering → *_filtered_gene_data.csv
 
+SIS Feature Selection → *_filtered_gene_data_SIS.csv
+
+Model Training + SCP → evaluation metrics and visualizations
 ## Requirements-Any dependencies
+pandas>=1.3
+
+numpy>=1.20
+
+scikit-learn>=0.24
+
+xgboost>=1.5
+
+imbalanced-learn>=0.8
+
+matplotlib>=3.4
+
+seaborn>=0.11
 
 ## Methodology
+***Data Processing***
+
+Eight publicly available lung cancer gene expression datasets from Kaggle and UCI were used.
+
+Variance filtering was applied to remove low-variance features, and SIS/ANOVA F-test was employed to select the features most relevant to the target variable.
+
+SMOTE was applied to the training set to balance class distribution.
+
+***Modeling and Evaluation***
+
+Three classifiers were trained on the selected features: Random Forest, Support Vector Machine (SVM), and XGBoost.
+
+Stratified train-test split and five-fold cross-validation were used for evaluation, with metrics including Accuracy, F1, ROC-AUC, Average Precision, and G-mean.
+
+To quantify predictive uncertainty, Split Conformal Prediction (SCP) was introduced, analyzing the trade-off between coverage and prediction set size under different confidence levels.
+## quotation
+In this study, we utilized the icgc LUAD dataset for lung cancer prediction. The gene expression data from this dataset was used to train and evaluate deep learning models. Specifically, Liu S and Yao W (2022) proposed a deep learning method with KL divergence gene selection based on gene expression to improve the predictive accuracy of lung cancer.
+
+# Reference:
+
+Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection. BMC Bioinformatics, 2022, 23(1): 175.
 
 ## Materials and Methods
 ### Computational Infrastructure:
-***software:*** python python 3.12 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
+python python 3.12 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
 
 ## Key Features
 Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
@@ -111,9 +176,4 @@ Reliable Confidence Intervals: Empirical coverage rates closely match the pre-sp
 
 Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectively, maintaining high coverage and stability.
 
-## quotation
-In this study, we utilized the icgc LUAD dataset for lung cancer prediction. The gene expression data from this dataset was used to train and evaluate deep learning models. Specifically, Liu S and Yao W (2022) proposed a deep learning method with KL divergence gene selection based on gene expression to improve the predictive accuracy of lung cancer.
 
-# Reference:
-
-Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection. BMC Bioinformatics, 2022, 23(1): 175.
