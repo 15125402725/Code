@@ -75,7 +75,7 @@ Each dataset contains high-dimensional gene expression data with imbalanced clas
 ## Code information
 The processing of these eight datasets in this study is as follows:
 
-First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code);Finally,Modeling and Evaluation.
+First, variance filtering was applied for preprocessing; then the SIS method was used to select features that are highly associated with our target variables (e.g., high-risk vs. low-risk, SCLC vs. NSCLC, lung cancer vs. other common cancers, etc.).[Code]  (https://github.com/15125402725/code); Finally,Modeling and Evaluation.
 
 ## Usage Instuctions
 Variance Filtering → *_filtered_gene_data.csv
