@@ -57,12 +57,18 @@ PRAD LUAD (IM108)
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
 
 ## Code information
+[Code]  (https://github.com/15125402725/code)
+
 ## Usage Instuctions
+
+## Requirements-Any dependencies
+
+## Methodology
 
 ## Materials and Methods
 ### Computational Infrastructure:
 ***software:*** python python 3.13 Platform: x86_64-w64-mingw32/x64 (64-bit) Running under: Windows >= 10 x64 (build 26100) The packages loaded:numpy_1.19.0, pandas_1.1.0, scikit-learn_0.24.0,xgboost_1.3.0, imbalanced-learn_0.8.0, matplotlib_3.3.0, seaborn_0.11.0
-## [Code]  (https://github.com/15125402725/code)
+
 ## Key Features
 Feature Selection: Utilizes Sure Independence Screening (SIS) to reduce data dimensionality and select relevant features for classification.
 
@@ -121,6 +127,6 @@ Robustness to Overfitting: ESCP handles ultra-high dimensional datasets effectiv
 ## quotation
 In this study, we utilized the icgc LUAD dataset for lung cancer prediction. The gene expression data from this dataset was used to train and evaluate deep learning models. Specifically, Liu S and Yao W (2022) proposed a deep learning method with KL divergence gene selection based on gene expression to improve the predictive accuracy of lung cancer.
 
-***Reference:***
+# Reference:
 
 Liu S, Yao W. Prediction of lung cancer using gene expression and deep learning with KL divergence gene selection. BMC Bioinformatics, 2022, 23(1): 175.
