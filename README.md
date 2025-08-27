@@ -68,8 +68,7 @@ cancer types. 331
 
 ***Count matrix(IM105):*** 60,660 genes across 600 samples—317 normal, 283 lung cancer. 332
 ***icgc LUAD(IM107):*** Lung adenocarcinoma data; 543 lung cancer and 55 normal samples, 19,565 genes
-
-## [data] (https://github.com/15125402725/Data)
+[data] (https://github.com/15125402725/Data)
 
 Each dataset contains high-dimensional gene expression data with imbalanced classes, reflecting the challenges in lung cancer classification tasks.
 
