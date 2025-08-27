@@ -275,6 +275,5 @@ if __name__ == "__main__":
         avg_set_sizes.append(np.mean([len(s) for s in temp_sets]))
 
     # 可视化
-    visualizer.plot_roc_pr(y_test, y_proba)
-    visualizer.plot_coverage_vs_set_size(confidence_levels, coverage_rates, avg_set_sizes)
-    print("\n所有可视化结果已保存至 results/ 目录")
+    #visualizer.plot_coverage_vs_set_size(confidence_levels, coverage_rates, avg_set_sizes)
+    #print("\n所有可视化结果已保存至 results/ 目录")

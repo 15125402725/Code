@@ -16,7 +16,7 @@ save_dir = "random_forest_evaluation_plots/RFSMOTE"
 os.makedirs(save_dir, exist_ok=True)
 
 # 1. 数据加载
-df = pd.read_csv("Count_filtered_gene_data_SIS.csv")
+df = pd.read_csv("COUNT_SIS_selected_features.csv")
 X = df.iloc[:, 1:].values  # 特征列是从第二列开始
 y = df.iloc[:, 0].values   # 标签列是第一列
 
