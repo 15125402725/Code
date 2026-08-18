@@ -22,7 +22,7 @@ This study uses a publicly available Alzheimer’s disease dataset comprising co
 
 The dataset used in this study encompasses multidimensional clinical indicators, including demographic characteristics, lifestyle factors, medical history, clinical measurements, and cognitive and functional assessments. Detailed information about the dataset can be accessed through the following link:
 
-\[Data](https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset)
+[Data](https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset)
 
 ## 4.Code information
 
