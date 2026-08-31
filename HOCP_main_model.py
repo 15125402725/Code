@@ -50,12 +50,33 @@ from xgboost import XGBClassifier
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
 
-
+plt.rcParams["font.family"] = "Arial"
 # =============================================================================
 # Global configuration
 # =============================================================================
 BASE_OUTPUT = "output"
 os.makedirs(BASE_OUTPUT, exist_ok=True)
+
+# =============================================================================
+# Publication figure saving utility
+# Save figures as PDF and TIFF formats only
+# =============================================================================
+def save_figure_pdf_tiff(fig, filepath):
+    fig.savefig(
+        filepath + ".pdf",
+        format="pdf",
+        bbox_inches="tight",
+        pad_inches=0.1,
+    )
+    fig.savefig(
+        filepath + ".tiff",
+        format="tiff",
+        dpi=600,
+        bbox_inches="tight",
+        pad_inches=0.1,
+    )
+
+
 
 DATA_PATH = r"D:\Projects\PythonProjects\PythonProject1\data\alzheimers_disease_data.csv"
 TARGET_COL = "Diagnosis"
@@ -543,20 +564,24 @@ def plot_model_performance_from_csv(
 
         ax.set_title(
             metric,
-            fontsize=14,
+            fontsize=15,
             fontweight="bold",
         )
-        ax.set_ylim(fill_base, 1.0)
+        ax.set_ylim(fill_base, 1.1)
         ax.set_ylabel(
             "Score",
-            fontsize=12,
+            fontsize=15,
+        )
+        ax.tick_params(
+            axis="y",
+            labelsize=12
         )
         ax.set_xticks(x)
         ax.set_xticklabels(
             models,
             rotation=45,
             ha="right",
-            fontsize=12,
+            fontsize=15,
         )
 
         # Same y-grid style.
@@ -583,6 +608,17 @@ def plot_model_performance_from_csv(
     fig.savefig(
         output_pdf,
         format="pdf",
+        bbox_inches="tight",
+    )
+
+    output_tiff = output_pdf.replace(
+        ".pdf",
+        ".tiff"
+    )
+
+    fig.savefig(
+        output_tiff,
+        format="tiff",
         dpi=600,
         bbox_inches="tight",
     )
@@ -678,8 +714,8 @@ def perform_shap_analysis(
 
     fig.set_size_inches(12, 8)
 
-    ax.set_title(f"SHAP Summary Plot - {model_name}", fontsize=14)
-    ax.set_xlabel("SHAP value (impact on model output)", fontsize=12)
+    ax.set_title(f"SHAP Summary Plot - {model_name}", fontsize=15)
+    ax.set_xlabel("SHAP value (impact on model output)", fontsize=15)
 
     fig.subplots_adjust(
         left=0.30,
@@ -689,13 +725,25 @@ def perform_shap_analysis(
     )
 
     plt.savefig(
-        os.path.join(full_output_dir, f"shap_summary_{model_name}.pdf"),
+        os.path.join(
+            full_output_dir,
+            f"shap_summary_{model_name}.pdf"
+        ),
         format="pdf",
-        dpi=600,
         bbox_inches="tight",
         pad_inches=0.15,
     )
 
+    plt.savefig(
+        os.path.join(
+            full_output_dir,
+            f"shap_summary_{model_name}.tiff"
+        ),
+        format="tiff",
+        dpi=600,
+        bbox_inches="tight",
+        pad_inches=0.15,
+    )
     plt.close(fig)
 
     plt.figure(figsize=(12, 8))
@@ -713,10 +761,10 @@ def perform_shap_analysis(
 
     fig.set_size_inches(12, 8)
 
-    ax.set_title(f"SHAP Feature Importance - {model_name}", fontsize=14)
+    ax.set_title(f"SHAP Feature Importance - {model_name}", fontsize=15)
     ax.set_xlabel(
         "mean(|SHAP value|)\n(average impact on model output magnitude)",
-        fontsize=12,
+        fontsize=15,
         labelpad=8,
     )
 
@@ -727,12 +775,9 @@ def perform_shap_analysis(
         top=0.92,
     )
 
-    plt.savefig(
-        os.path.join(full_output_dir, f"shap_bar_{model_name}.pdf"),
-        format="pdf",
-        dpi=600,
-        bbox_inches="tight",
-        pad_inches=0.15,
+    save_figure_pdf_tiff(
+        fig,
+        os.path.join(full_output_dir, f"shap_bar_{model_name}")
     )
 
     plt.close(fig)
@@ -845,7 +890,7 @@ def plot_selected_feature_descriptions(
     n_cols = 3
     n_rows = int(np.ceil(n_features / n_cols))
 
-    fig = plt.figure(figsize=(14, 4.0 * n_rows))
+    fig = plt.figure(figsize=(15, 4.0 * n_rows))
     gs = fig.add_gridspec(
         n_rows,
         n_cols,
@@ -902,7 +947,7 @@ def plot_selected_feature_descriptions(
                 legend=False,
             )
 
-            ax.set_ylabel("Standardized Value", fontsize=12)
+            ax.set_ylabel("Standardized Value", fontsize=15,fontweight="bold")
             ax.axhline(
                 y=0,
                 color="gray",
@@ -945,7 +990,7 @@ def plot_selected_feature_descriptions(
                 legend=False,
             )
 
-            ax.set_ylabel("Percentage (%)", fontsize=12)
+            ax.set_ylabel("Percentage (%)", fontsize=15,fontweight="bold")
             ax.set_ylim(0, 100)
 
             for container in ax.containers:
@@ -956,7 +1001,7 @@ def plot_selected_feature_descriptions(
                 ax.bar_label(
                     container,
                     labels=labels,
-                    fontsize=12,
+                    fontsize=15,
                     label_type="center",
                 )
 
@@ -965,13 +1010,14 @@ def plot_selected_feature_descriptions(
         ax.set_xticklabels(
             ["Non-AD (0)", "AD (1)"],
             rotation=0,
-            fontsize=12,
+            fontsize=15,
+            fontweight="bold",
         )
 
         # Feature name is the subplot title; no (a), (b), ... labels.
         ax.set_title(
             feature,
-            fontsize=12,
+            fontsize=15,
             fontweight="bold",
             pad=8,
         )
@@ -998,20 +1044,22 @@ def plot_selected_feature_descriptions(
         full_output_dir,
         "selected_feature_descriptive_distribution.pdf",
     )
-    png_path = os.path.join(
+
+    tiff_path = os.path.join(
         full_output_dir,
-        "selected_feature_descriptive_distribution.png",
+        "selected_feature_descriptive_distribution.tiff",
     )
 
     fig.savefig(
         pdf_path,
         format="pdf",
-        dpi=600,
         bbox_inches="tight",
         pad_inches=0.10,
     )
+
     fig.savefig(
-        png_path,
+        tiff_path,
+        format="tiff",
         dpi=600,
         bbox_inches="tight",
         pad_inches=0.10,
@@ -1447,24 +1495,26 @@ def main():
 
         ax.set_xlabel(
             "False Positive Rate",
-            fontsize=11,
+            fontsize=15,
+            fontweight="bold",
         )
         ax.set_ylabel(
             "True Positive Rate",
-            fontsize=11,
+            fontsize=15,
+            fontweight="bold",
         )
 
         # Model name and AUC
         ax.set_title(
             f"{display_names[name]} (AUC = {auc:.4f})",
-            fontsize=12,
+            fontsize=15,
             fontweight="bold",
             pad=8,
         )
 
         ax.tick_params(
             axis="both",
-            labelsize=10,
+            labelsize=15,
         )
 
         ax.grid(
@@ -1489,20 +1539,18 @@ def main():
             "all_models_roc_subplots.pdf",
         ),
         format="pdf",
-        dpi=600,
         bbox_inches="tight",
     )
 
     fig.savefig(
         os.path.join(
             roc_curves_dir,
-            "all_models_roc_subplots.png",
+            "all_models_roc_subplots.tiff",
         ),
+        format="tiff",
         dpi=600,
         bbox_inches="tight",
     )
-
-    plt.close(fig)
 
 
 
@@ -1672,10 +1720,10 @@ def main():
     # -------------------------------------------------------------------------
     # 11. Publication-style visualizations
     # -------------------------------------------------------------------------
-    plt.rcParams["font.family"] = "Times New Roman"
-    plt.rcParams["font.size"] = 12
+    plt.rcParams["font.family"] = "Arial"
+    plt.rcParams["font.size"] = 15
     plt.rcParams["axes.linewidth"] = 1.2
-    plt.rcParams["figure.dpi"] = 300
+    plt.rcParams["figure.dpi"] = 600
     plt.rcParams["grid.alpha"] = 0.3
     plt.rcParams["grid.linestyle"] = "-"
     plt.rcParams["grid.linewidth"] = 0.5
@@ -1758,12 +1806,12 @@ def main():
     # top: class-membership matrix
     # bottom: prediction-type annotation strip
     # ---------------------------------------------------------------------
-    fig1 = plt.figure(figsize=(13.5, 5.2))
+    fig1 = plt.figure(figsize=(14, 10))
     gs1 = fig1.add_gridspec(
         nrows=2,
         ncols=1,
-        height_ratios=[3.2, 0.65],
-        hspace=0.12,
+        height_ratios=[4,0.8],
+        hspace=0.25,
     )
 
     ax1 = fig1.add_subplot(gs1[0, 0])
@@ -1852,11 +1900,11 @@ def main():
     ax1.set_yticks(np.arange(len(class_list)))
     ax1.set_yticklabels(
         class_labels,
-        fontsize=12,
+        fontsize=15,
     )
     ax1.set_ylabel(
         "Class",
-        fontsize=12,
+        fontsize=15,
     )
 
     # Remove unnecessary outer spines.
@@ -1913,18 +1961,19 @@ def main():
     ax_type.set_xticks(major_x)
     ax_type.set_xticklabels(
         (major_x + 1).astype(int),
-        fontsize=11,
+        fontsize=15,
     )
     ax_type.set_xlabel(
         "Test Sample Index",
-        fontsize=12,
+        fontsize=15,
+        labelpad=15,
     )
 
     # Label the annotation strip without crowding the figure.
     ax_type.set_yticks([0])
     ax_type.set_yticklabels(
         ["Prediction type"],
-        fontsize=11,
+        fontsize=15,
     )
 
     for spine in ax_type.spines.values():
@@ -1952,20 +2001,20 @@ def main():
             label="True class",
             markerfacecolor="#202020",
             markeredgecolor="white",
-            markersize=10,
+            markersize=15,
         ),
     ]
 
     membership_legend = ax1.legend(
         handles=membership_legend_elements,
         loc="upper center",
-        bbox_to_anchor=(0.5, 1.22),
+        bbox_to_anchor=(0.5, 0.02),
         ncol=3,
         frameon=True,
         facecolor="#f2f2f2",
         edgecolor="#8c8c8c",
         framealpha=1.0,
-        fontsize=11,
+        fontsize=15,
     )
     membership_legend.get_frame().set_linewidth(0.8)
 
@@ -1998,35 +2047,29 @@ def main():
     type_legend = ax_type.legend(
         handles=type_legend_elements,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.72),
+        bbox_to_anchor=(0.5, -0.95),
         ncol=4,
         frameon=True,
         facecolor="#f2f2f2",
         edgecolor="#8c8c8c",
         framealpha=1.0,
-        fontsize=10.5,
+        fontsize=15,
     )
     type_legend.get_frame().set_linewidth(0.8)
 
     # Keep enough room for the two legends.
     fig1.subplots_adjust(
-        left=0.10,
+        left=0.12,
         right=0.98,
         top=0.82,
-        bottom=0.25,
+        bottom=0.18,
     )
 
     # Save using the same output filename as before, so no downstream
     # manuscript references need to change.
-    fig1.savefig(
-        os.path.join(
-            BASE_OUTPUT,
-            "prediction_set_matrix.pdf",
-        ),
-        format="pdf",
-        dpi=600,
-        bbox_inches="tight",
-        pad_inches=0.12,
+    save_figure_pdf_tiff(
+        fig1,
+        os.path.join(BASE_OUTPUT, "prediction_set_matrix")
     )
 
     plt.close(fig1)
@@ -2089,13 +2132,13 @@ def main():
             label="AD coverage",
         )
 
-    ax2.set_xlabel("Significance Level (α)", fontsize=12)
-    ax2.set_ylabel("Coverage Rate", fontsize=12)
+    ax2.set_xlabel("Significance Level (α)", fontsize=15,fontweight="bold")
+    ax2.set_ylabel("Coverage Rate", fontsize=15,fontweight="bold")
     ax2.set_xlim(0.01, 0.20)
     ax2.set_ylim(0.00, 1.00)
     coverage_legend = ax2.legend(
         loc="lower left",
-        fontsize=12,
+        fontsize=15,
         frameon=True,
         facecolor="#f2f2f2",
         edgecolor="#8c8c8c",
@@ -2107,11 +2150,9 @@ def main():
     ax2.spines["right"].set_visible(False)
 
     plt.tight_layout()
-    plt.savefig(
-        os.path.join(BASE_OUTPUT, "coverage_curve_with_conditional.pdf"),
-        format="pdf",
-        dpi=600,
-        bbox_inches="tight",
+    save_figure_pdf_tiff(
+        fig2,
+        os.path.join(BASE_OUTPUT, "coverage_curve_with_conditional")
     )
     plt.close()
 
